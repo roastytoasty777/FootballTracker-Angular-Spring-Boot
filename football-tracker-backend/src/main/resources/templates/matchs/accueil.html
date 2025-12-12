@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Liste des Matchs</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css" />
+    <style>
+        .match-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .match-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .team-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .vs-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .match-date {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        .venue-icon::before {
+            content: "📍 ";
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <div th:replace="fragments/header :: header"></div>
+    <h2 class="mb-4">Liste des Matchs</h2>
+
+    <div class="mb-4">
+        <form th:action="@{/matchs/all}" method="get" class="d-flex">
+            <input type="text" name="mc" th:value="${mc}" placeholder="Rechercher par lieu..." class="form-control me-2"/>
+            <button type="submit" class="btn btn-primary">Rechercher</button>
+        </form>
+    </div>
+
+    <a th:href="@{/matchs/add}" class="btn btn-success mb-4">
+        <i class="bi bi-plus-circle"></i> Ajouter un Match
+    </a>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="col" th:each="m:${matchs}">
+            <div class="card match-card h-100 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <span class="badge bg-primary">Match #<span th:text="${m.id}"></span></span>
+                        <span class="match-date">
+                            <i class="bi bi-calendar"></i>
+                            <span th:text="${#temporals.format(m.matchDate, 'dd-MM-yyyy HH:mm')}"></span>
+                        </span>
+                    </div>
+
+                    <div class="text-center mb-3">
+                        <div class="team-name text-primary mb-2" th:text="${m.homeTeam.nom}"></div>
+                        <div class="my-2">
+                            <span class="vs-badge">VS</span>
+                        </div>
+                        <div class="team-name text-danger mt-2" th:text="${m.awayTeam.nom}"></div>
+                    </div>
+
+                    <div class="text-center mb-3">
+                        <span class="venue-icon text-muted" th:text="${m.venue}"></span>
+                    </div>
+                </div>
+
+                <div class="card-footer bg-transparent border-top-0">
+                    <div class="d-flex justify-content-center gap-2">
+                        <a th:href="@{/matchs/edit/{id}(id=${m.id})}" class="btn btn-sm btn-info">
+                            <i class="bi bi-pencil"></i> Modifier
+                        </a>
+                        <form th:action="@{/matchs/delete/{id}(id=${m.id})}" method="post" style="display:inline;"
+                              onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce match ?');">
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                <i class="bi bi-trash"></i> Supprimer
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

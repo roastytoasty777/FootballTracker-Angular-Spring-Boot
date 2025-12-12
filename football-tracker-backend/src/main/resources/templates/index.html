@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Football Tracker - Accueil</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css" />
+</head>
+<body>
+<div class="container mt-5">
+    <div class="jumbotron text-center">
+        <h1 class="display-4">⚽ Bienvenue dans Football Tracker 🥅</h1>
+        <p class="lead">Votre application de suivi des joueurs, équipes et matchs.</p>
+        <hr class="my-4">
+    </div>
+
+    <div class="row text-center">
+        <div class="col-md-4">
+            <div class="card bg-light mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Gérer les Joueurs</h5>
+                    <p class="card-text">Liste et gestion des joueurs de football.</p>
+                    <a th:href="@{/players/all}" class="btn btn-primary">Voir les Joueurs</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-light mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Gérer les Équipes</h5>
+                    <p class="card-text">Liste et gestion des équipes de football.</p>
+                    <a th:href="@{/teams/all}" class="btn btn-success">Voir les Équipes</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-light mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Gérer les Matchs</h5>
+                    <p class="card-text">Liste et gestion des rencontres sportives.</p>
+                    <a th:href="@{/matchs/all}" class="btn btn-danger">Voir les Matchs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/webjars/bootstrap/5.3.3/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Liste des Joueurs</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css" />
+</head>
+<body>
+<div class="container mt-5">
+    <div th:replace="fragments/header :: header"></div>
+    <h2>Liste des Joueurs</h2>
+
+    <div class="mb-3">
+        <form th:action="@{/players/all}" method="get" class="d-flex">
+            <input type="text" name="mc" th:value="${mc}" placeholder="Rechercher par nom..." class="form-control me-2"/>
+            <button type="submit" class="btn btn-primary">Rechercher</button>
+        </form>
+    </div>
+
+    <a th:href="@{/players/add}" class="btn btn-success mb-3">Ajouter un Joueur</a>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Âge</th>
+            <th>Nationalité</th>
+            <th>Position</th>
+            <th>Équipe</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p:${players}">
+            <td th:text="${p.id}"></td>
+            <td th:text="${p.nom}"></td>
+            <td th:text="${p.age}"></td>
+            <td th:text="${p.nationalite}"></td>
+            <td th:text="${p.position}"></td>
+            <td>
+                <span th:if="${p.team != null}">
+                    <a th:href="@{/teams/edit/{id}(id=${p.team.id})}" th:text="${p.team.nom}"></a>
+                </span>
+                <span th:if="${p.team == null}">-</span>
+            </td>
+            <td>
+                <a th:href="@{/players/edit/{id}(id=${p.id})}" class="btn btn-sm btn-info">Modifier</a>
+
+                <form th:action="@{/players/delete/{id}(id=${p.id})}" method="post" style="display:inline;"
+                      onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce joueur ?');">
+                    <button type="submit" class="btn btn-sm btn-danger">Supprimer</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
